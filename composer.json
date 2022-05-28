@@ -1,0 +1,55 @@
+{
+    "name": "awuxtron/websocket",
+    "type": "library",
+    "description": "The Websocket Client For PHP.",
+    "homepage": "https://github.com/awuxtron/websocket",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Awuxtron",
+            "email": "contact@awuxtron.dev",
+            "homepage": "https://awuxtron.dev",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/awuxtron/websocket/issues",
+        "source": "https://github.com/awuxtron/websocket"
+    },
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/psr7": "^2.2",
+        "ratchet/rfc6455": "^0.3.1"
+    },
+    "require-dev": {
+        "awuxtron/devtools": "dev-main",
+        "cboden/ratchet": "^0.4.4",
+        "pestphp/pest": "^1.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "Awuxtron\\Websocket\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Awuxtron\\Websocket\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "awuxtron/devtools": true,
+            "pestphp/pest-plugin": true
+        }
+    }
+}
