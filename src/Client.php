@@ -17,7 +17,7 @@ class Client
     /**
      * The current package version.
      */
-    public const VERSION = 'dev-master';
+    public const VERSION = '0.0.1';
 
     /**
      * The supported schemes.
