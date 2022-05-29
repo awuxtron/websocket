@@ -56,8 +56,7 @@ class Client
      */
     public function __construct(UriInterface|string $uri, Options|array $options = [])
     {
-        $this->uri = Utils::uriFor($uri);
-
+        $this->setUri($uri);
         $this->setOptions($options);
     }
 
@@ -95,6 +94,20 @@ class Client
     public function disconnect(): void
     {
         $this->stream->close();
+    }
+
+    /**
+     * Set or change websocket URI.
+     *
+     * @param string|UriInterface $uri
+     *
+     * @return static
+     */
+    public function setUri(UriInterface|string $uri): static
+    {
+        $this->uri = Utils::uriFor($uri);
+
+        return $this;
     }
 
     /**
