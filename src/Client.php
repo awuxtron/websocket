@@ -57,7 +57,8 @@ class Client
     public function __construct(UriInterface|string $uri, Options|array $options = [])
     {
         $this->uri = Utils::uriFor($uri);
-        $this->options = Options::of($options);
+
+        $this->setOptions($options);
     }
 
     /**
@@ -104,6 +105,20 @@ class Client
     public function getOptions(): Options
     {
         return $this->options;
+    }
+
+    /**
+     * Set or change client options.
+     *
+     * @param array<mixed>|Options $options
+     *
+     * @return static
+     */
+    public function setOptions(Options|array $options = []): static
+    {
+        $this->options = Options::of($options);
+
+        return $this;
     }
 
     /**
