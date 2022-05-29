@@ -2,7 +2,6 @@
 
 namespace Awuxtron\Websocket;
 
-use Awuxtron\Websocket\Enums\CloseStatus;
 use Awuxtron\Websocket\Enums\Opcode;
 use Awuxtron\Websocket\Utils\Message;
 use Awuxtron\Websocket\Utils\SocketStream;
@@ -52,7 +51,7 @@ class Websocket
     {
         $message = new Message($this->stream);
 
-        if ($message->getOpcode()->value == Opcode::CLOSE->value) {
+        if ($message->getOpcode() == Opcode::CLOSE) {
             $this->client->disconnect();
         }
 
@@ -63,14 +62,14 @@ class Websocket
      * Send a message to the websocket server.
      *
      * @param string $message
-     * @param Opcode $opcode
+     * @param int    $opcode
      */
-    public function send(string $message, Opcode $opcode = Opcode::TEXT): void
+    public function send(string $message, int $opcode = Opcode::TEXT): void
     {
         $length = count($chunks = str_split($message, $this->options->max_fragment_size));
 
         foreach ($chunks as $i => $payload) {
-            $frame = (new Frame($payload, $i == $length - 1, $opcode->value))->maskPayload();
+            $frame = (new Frame($payload, $i == $length - 1, $opcode))->maskPayload();
 
             $this->stream->write($frame->getContents());
 
@@ -111,10 +110,10 @@ class Websocket
     /**
      * Send a close message to the websocket server.
      *
-     * @param CloseStatus $status
-     * @param string      $reason
+     * @param int    $status
+     * @param string $reason
      */
-    public function close(CloseStatus $status, string $reason = ''): void
+    public function close(int $status, string $reason = ''): void
     {
         $this->send(pack('n', $status) . $reason, Opcode::CLOSE);
     }

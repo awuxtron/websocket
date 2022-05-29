@@ -2,7 +2,6 @@
 
 namespace Awuxtron\Websocket\Utils;
 
-use Awuxtron\Websocket\Enums\CloseStatus;
 use Awuxtron\Websocket\Enums\Opcode;
 use Awuxtron\Websocket\Exceptions\BadMessageException;
 use Psr\Http\Message\StreamInterface;
@@ -54,16 +53,16 @@ class Message
     /**
      * The message opcode.
      *
-     * @var Opcode
+     * @var int
      */
-    protected Opcode $opcode;
+    protected int $opcode;
 
     /**
      * The close status of message.
      *
-     * @var CloseStatus
+     * @var int
      */
-    protected CloseStatus $closeStatus;
+    protected int $closeStatus;
 
     /**
      * Read and decode the message from the stream.
@@ -127,23 +126,23 @@ class Message
     /**
      * Get the message opcode.
      *
-     * @return Opcode
+     * @return int
      */
-    public function getOpcode(): Opcode
+    public function getOpcode(): int
     {
         if (empty($this->header)) {
             throw new BadMessageException('Unable to get the opcode of empty message.');
         }
 
-        return $this->opcode ?? Opcode::from(ord($this->header[0]) & 31);
+        return $this->opcode ?? ord($this->header[0]) & 31;
     }
 
     /**
      * Get the close status of message.
      *
-     * @return null|CloseStatus
+     * @return ?int
      */
-    public function getCloseStatus(): ?CloseStatus
+    public function getCloseStatus(): ?int
     {
         return $this->closeStatus ?? null;
     }
@@ -203,10 +202,10 @@ class Message
 
         $this->unmask();
 
-        if ($this->getOpcode()->value == Opcode::CLOSE->value) {
+        if ($this->getOpcode() == Opcode::CLOSE) {
             $status = array_map('ord', str_split(substr($this->payload, 0, 2)));
 
-            $this->closeStatus = CloseStatus::from((int) bindec(sprintf('%08b%08b', ...$status)));
+            $this->closeStatus = (int) bindec(sprintf('%08b%08b', ...$status));
             $this->payload = substr($this->payload, 2);
         }
     }
